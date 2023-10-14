@@ -1,0 +1,148 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
+
+.body-wrapper {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.form-container {
+  width: 80%;
+  max-width: 600px; /* Limit the maximum width of the form */
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+}
+
+.radio-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.radio-group label {
+  font-size: 14px;
+}
+
+.radio-group input[type="radio"] {
+  margin-left: 10px;
+}
+
+.form-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.input-group label {
+  flex: 0 0 30%; /* Adjust the label width as needed */
+  font-size: 14px;
+}
+
+.input-group img {
+  margin-right: 10px;
+}
+
+.input-group input[type="text"] {
+  flex: 1;
+  border: none;
+  background: none;
+  font-size: 16px;
+  outline: none;
+}
+
+.input-group input[type="text"]:focus {
+  border: none;
+  background: none;
+  font-size: 16px;
+  outline: none;
+}
+
+.increment-decrement {
+  display: flex;
+  align-items: center;
+}
+
+.increment-decrement button {
+  width: 30px;
+  height: 30px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.increment-decrement input {
+  width: 40px;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+}
+
+.direct-flight label {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.direct-flight select {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.airlines-select select {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.search-button-cell {
+  background-color: #0ba7ff;
+  color: white;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px 0;
+}
+
+.search-button-cell:hover {
+  background-color: #007acc;
+}
+
+.search-button {
+  background-color: inherit;
+  color: inherit;
+  font-size: inherit;
+  border: inherit;
+  padding: inherit;
+  cursor: pointer;
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Select Animals</title>
+    <style>
+      /* Your custom CSS styles go here */
+      .center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .center input {
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #222;
+        background: #f5f5f5;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .popup {
+        position: absolute;
+        top: 150%;
+        left: 50%;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.25);
+        width: 380px;
+        padding: 10px 20px;
+        background: red;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        transition: top 0ms ease-in-out 200ms, opacity 200ms ease-in-out 0ms,
+          transform 20ms ease-in-out 0ms;
+        text-align: center;
+        cursor: pointer;
+        font-size: 12px;
+        padding: 10px;
+      }
+      .popup.active {
+        top: 50%;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms,
+          transform 20ms ease-in-out 0ms;
+      }
+      .popup .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 15px;
+        background: #888;
+        color: #eee;
+        text-align: center;
+        line-height: 15px;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      .popup .form {
+        text-align: left;
+        color: #222;
+      }
+      .popup .form label {
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .popup .form .quantity-button {
+        cursor: pointer;
+        margin: 0 5px;
+        font-size: 20px;
+      }
+      .popup .form button {
+        width: 100%;
+        height: 40px;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        background: #222;
+        color: #f5f5f5;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <input
+        type="text"
+        id="animalCountInput"
+        readonly
+        placeholder="Select Animals"
+        onclick="showAnimalPopup()"
+      />
+    </div>
+    <div id="animal-popup" class="popup">
+      <div class="close-btn" onclick="closeAnimalPopup()">&times;</div>
+      <div class="form">
+        <h2>Select Animals</h2>
+        <!-- Add your animal incrementors and decrements here -->
+        <label for="cows">Cows:</label>
+        <span
+          class="quantity-button"
+          id="decrementCows"
+          onclick="decrementCount('cowsCount')"
+          >-</span
+        >
+        <span id="cowsCount">0</span>
+        <span
+          class="quantity-button"
+          id="incrementCows"
+          onclick="incrementCount('cowsCount')"
+          >+</span
+        ><br />
+
+        <label for="goats">Goats:</label>
+        <span
+          class="quantity-button"
+          id="decrementGoats"
+          onclick="decrementCount('goatsCount')"
+          >-</span
+        >
+        <span id="goatsCount">0</span>
+        <span
+          class="quantity-button"
+          id="incrementGoats"
+          onclick="incrementCount('goatsCount')"
+          >+</span
+        ><br />
+
+        <label for="sheep">Sheep:</label>
+        <span
+          class="quantity-button"
+          id="decrementSheep"
+          onclick="decrementCount('sheepCount')"
+          >-</span
+        >
+        <span id="sheepCount">0</span>
+        <span
+          class="quantity-button"
+          id="incrementSheep"
+          onclick="incrementCount('sheepCount')"
+          >+</span
+        ><br />
+        <button id="doneAnimalSelection" onclick="updateAnimalCount()">
+          Done
+        </button>
+      </div>
+    </div>
+    <script>
+      // Initialize counts for cows, goats, and sheep
+      let cowsCount = 0;
+      let goatsCount = 0;
+      let sheepCount = 0;
+
+      // Function to update the displayed counts
+      function updateCounts() {
+        document.querySelector("#cowsCount").textContent = cowsCount;
+        document.querySelector("#goatsCount").textContent = goatsCount;
+        document.querySelector("#sheepCount").textContent = sheepCount;
+      }
+
+      // Increment cows count
+      document
+        .querySelector("#incrementCows")
+        .addEventListener("click", function () {
+          cowsCount++;
+          updateCounts();
+        });
+
+      // Decrement cows count
+      document
+        .querySelector("#decrementCows")
+        .addEventListener("click", function () {
+          if (cowsCount > 0) {
+            cowsCount--;
+            updateCounts();
+          }
+        });
+
+      // Increment goats count
+      document
+        .querySelector("#incrementGoats")
+        .addEventListener("click", function () {
+          goatsCount++;
+          updateCounts();
+        });
+
+      // Decrement goats count
+      document
+        .querySelector("#decrementGoats")
+        .addEventListener("click", function () {
+          if (goatsCount > 0) {
+            goatsCount--;
+            updateCounts();
+          }
+        });
+
+      // Increment sheep count
+      document
+        .querySelector("#incrementSheep")
+        .addEventListener("click", function () {
+          sheepCount++;
+          updateCounts();
+        });
+
+      // Decrement sheep count
+      document
+        .querySelector("#decrementSheep")
+        .addEventListener("click", function () {
+          if (sheepCount > 0) {
+            sheepCount--;
+            updateCounts();
+          }
+        });
+
+      // Handle the "Done" button click
+      document
+        .querySelector("#doneAnimalSelection")
+        .addEventListener("click", function () {
+          // Close the animal selection pop-up
+          document.querySelector("#animal-popup").classList.remove("active");
+
+          // Update the input field with the total number of animals
+          const totalAnimals = cowsCount + goatsCount + sheepCount;
+          const inputField = document.querySelector("#animalCountInput");
+          inputField.value = `Total Animals: ${totalAnimals}`;
+        });
+
+      function showAnimalPopup() {
+        // Display the animal selection pop-up
+        document.querySelector("#animal-popup").classList.add("active");
+      }
+
+      function closeAnimalPopup() {
+        // Close the animal selection pop-up
+        document.querySelector("#animal-popup").classList.remove("active");
+      }
+
+      function updateAnimalCount() {
+        // Close the animal selection pop-up
+        document.querySelector("#animal-popup").classList.remove("active");
+
+        // Update the input field with the total number of animals
+        const totalAnimals = cowsCount + goatsCount + sheepCount;
+        const inputField = document.querySelector("#animalCountInput");
+        inputField.value = `Total Animals: ${totalAnimals}`;
+      }
+    </script>
+  </body>
+</html>

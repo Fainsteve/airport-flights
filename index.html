@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Booking</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js"></script>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js"></script>
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include jQuery UI (Datepicker) -->
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/airport-autocomplete-js@latest/dist/index.browser.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Include your custom JavaScript file -->
+    <script src="js/index.js"></script>
+  </head>
+  <body>
+    <div class="body-wrapper">
+      <div class="btn-container">
+        <a href="index.html" class="btn btn-dark fw-bold">Flights</a>
+        <a href="page1.html" class="btn btn-primary fw-bold"
+          >Flight Multi-City</a
+        >
+        <a href="sample.html" class="btn btn-primary fw-bold">Hotels</a>
+        <a href="car-hire.html" class="btn btn-primary fw-bold"
+          >Flights + Hotels</a
+        >
+      </div>
+      <div class="table-container">
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="6">
+              <!-- Radio button for "Round Trip" -->
+              <label for="roundTrip"> Round Trip</label>
+              <input
+                type="radio"
+                name="trip"
+                id="roundTrip"
+                value="roundTrip"
+              />
+              <!-- Radio button for "One Way" -->
+              <label for="OneWay"> One Way</label>
+              <input type="radio" name="trip" id="OneWay" value="OneWay" />
+            </td>
+          </tr>
+          <tr>
+            <td class="leaving-from">
+              <label for="fromInput">Leaving From</label>
+              <div class="input-container">
+                <img
+                  src="images/airplane_take_off.SVG"
+                  class="flight-image"
+                  alt="Airplane taking off"
+                />
+                <input
+                  type="text"
+                  id="fromInput"
+                  name="fromInput"
+                  placeholder="London (LON)"
+                  maxlength="20"
+                  required
+                  autocomplete="off"
+                />
+                <div id="suggestionsFrom"></div>
+                <!-- Suggestions container -->
+              </div>
+            </td>
+
+            <td class="going-to">
+              <p>Going To</p>
+              <div class="input-container">
+                <img
+                  src="images/worldwide_location.SVG"
+                  class="location-image"
+                />
+                <input
+                  type="text"
+                  id="destinationInput"
+                  name="destinationInput"
+                  placeholder="Mumbai (MOB)"
+                  maxlength="20"
+                  required
+                  autocomplete="off"
+                />
+                <div id="suggestionsTo"></div>
+                <!-- Suggestions container -->
+              </div>
+            </td>
+            <td class="passengers">
+              <p>Passengers</p>
+              <div class="input-container">
+                <img src="images/flight_seat.SVG" class="seat-image" />
+                <style>
+                  /* Your custom CSS styles go here */
+                  /* .center {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                  }
+                  .center input {
+                    padding: 10px 20px;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #222;
+                    background: #f5f5f5;
+                    border: none;
+                    outline: none;
+                    cursor: pointer;
+                    border-radius: 5px;
+                  }*/
+                  .the-input {
+                    margin: 0;
+                    padding: 0;
+                  }
+                  .popup {
+                    position: absolute;
+                    top: 10%;
+                    left: 50%;
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(1.25);
+                    width: 380px;
+                    padding: 10px 20px;
+                    background: #fff;
+                    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+                    border-radius: 10px;
+                    transition: top 0ms ease-in-out 200ms,
+                      opacity 200ms ease-in-out 0ms,
+                      transform 20ms ease-in-out 0ms;
+                    text-align: center;
+                    cursor: pointer;
+                    font-size: 14px;
+                    padding: 10px;
+                    color: #007bff;
+                  }
+                  .popup.active {
+                    top: 50%;
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
+                    transition: top 0ms ease-in-out 0ms,
+                      opacity 200ms ease-in-out 0ms,
+                      transform 20ms ease-in-out 0ms;
+                  }
+                  .popup .close-btn {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 15px;
+                    background: #fff;
+                    color: #007bff;
+                    text-align: center;
+                    line-height: 15px;
+                    border-radius: 15px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 14px;
+                  }
+                  .popup .form {
+                    text-align: center;
+                    color: #007bff;
+                  }
+                  .popup .form label {
+                    font-weight: 600;
+                    font-size: 15px;
+                    color: #007bff;
+                  }
+                  .popup .form .quantity-button {
+                    cursor: pointer;
+                    margin: 0 5px;
+                    background-color: #007bff;
+                    padding: 4px 8px;
+                    color: white;
+                    border: none;
+                    border-radius: 50%;
+                    font-size: 18px;
+                    justify-content: center;
+                    align-items: center;
+                  }
+                  .popup .form .quantity-button:hover {
+                    background-color: #0056b3;
+                  }
+                  .popup .form button {
+                    width: 100%;
+                    height: 40px;
+                    border: none;
+                    outline: none;
+                    font-size: 15px;
+                    background: #007bff;
+                    color: #fff;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                  }
+                  #animalCountInput {
+                    width: 40%;
+                    font-size: 14px;
+                    border: none;
+                    outline: none;
+                    margin: 0;
+                    padding: 0;
+                  }
+                  .input-container {
+                    margin: 0;
+                  }
+                  .form {
+                    text-align: center;
+                    color: #fff;
+                  }
+                  .passenger-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin: 10px 0;
+                  }
+                  .passenger-label {
+                    flex: 1;
+                    font-weight: 600;
+                    font-size: 15px;
+                  }
+                </style>
+
+                <div class="the-input">
+                  <input
+                    type="text"
+                    id="animalCountInput"
+                    readonly
+                    placeholder="Select"
+                    onclick="showAnimalPopup()"
+                  />
+                </div>
+                <div id="animal-popup" class="popup">
+                  <div class="close-btn" onclick="closeAnimalPopup()">
+                    &times;
+                  </div>
+                  <div class="form">
+                    <h4>Select Passengers</h4>
+                    <div class="passenger-item">
+                      <label for="cows">Adults:</label>
+                      <div class="passenger-controls">
+                        <span
+                          class="quantity-button decrement"
+                          id="decrementCows"
+                          onclick="decrementCount('cowsCount')"
+                          >-</span
+                        >
+                        <span id="cowsCount">0</span>
+                        <span
+                          class="quantity-button increment"
+                          id="incrementCows"
+                          onclick="incrementCount('cowsCount')"
+                          >+</span
+                        >
+                      </div>
+                    </div>
+                    <div class="passenger-item">
+                      <label for="goats">Children:</label>
+                      <div class="passenger-controls">
+                        <span
+                          class="quantity-button decrement"
+                          id="decrementGoats"
+                          onclick="decrementCount('goatsCount')"
+                          >-</span
+                        >
+                        <span id="goatsCount">0</span>
+                        <span
+                          class="quantity-button increment"
+                          id="incrementGoats"
+                          onclick="incrementCount('goatsCount')"
+                          >+</span
+                        >
+                      </div>
+                    </div>
+                    <div class="passenger-item">
+                      <label for="sheep">Infants:</label>
+                      <div class="passenger-controls">
+                        <span
+                          class="quantity-button decrement"
+                          id="decrementSheep"
+                          onclick="decrementCount('sheepCount')"
+                          >-</span
+                        >
+                        <span id="sheepCount">0</span>
+                        <span
+                          class="quantity-button increment"
+                          id="incrementSheep"
+                          onclick="incrementCount('sheepCount')"
+                          >+</span
+                        >
+                      </div>
+                    </div>
+                    <button
+                      id="doneAnimalSelection"
+                      onclick="updateAnimalCount()"
+                    >
+                      Done
+                    </button>
+                  </div>
+                </div>
+
+                <script>
+                  // Initialize counts for cows, goats, and sheep
+                  let cowsCount = 0;
+                  let goatsCount = 0;
+                  let sheepCount = 0;
+
+                  // Function to update the displayed counts
+                  function updateCounts() {
+                    document.querySelector("#cowsCount").textContent =
+                      cowsCount;
+                    document.querySelector("#goatsCount").textContent =
+                      goatsCount;
+                    document.querySelector("#sheepCount").textContent =
+                      sheepCount;
+                  }
+
+                  // Increment cows count
+                  document
+                    .querySelector("#incrementCows")
+                    .addEventListener("click", function () {
+                      cowsCount++;
+                      updateCounts();
+                    });
+
+                  // Decrement cows count
+                  document
+                    .querySelector("#decrementCows")
+                    .addEventListener("click", function () {
+                      if (cowsCount > 0) {
+                        cowsCount--;
+                        updateCounts();
+                      }
+                    });
+
+                  // Increment goats count
+                  document
+                    .querySelector("#incrementGoats")
+                    .addEventListener("click", function () {
+                      goatsCount++;
+                      updateCounts();
+                    });
+
+                  // Decrement goats count
+                  document
+                    .querySelector("#decrementGoats")
+                    .addEventListener("click", function () {
+                      if (goatsCount > 0) {
+                        goatsCount--;
+                        updateCounts();
+                      }
+                    });
+
+                  // Increment sheep count
+                  document
+                    .querySelector("#incrementSheep")
+                    .addEventListener("click", function () {
+                      sheepCount++;
+                      updateCounts();
+                    });
+
+                  // Decrement sheep count
+                  document
+                    .querySelector("#decrementSheep")
+                    .addEventListener("click", function () {
+                      if (sheepCount > 0) {
+                        sheepCount--;
+                        updateCounts();
+                      }
+                    });
+
+                  // Handle the "Done" button click
+                  document
+                    .querySelector("#doneAnimalSelection")
+                    .addEventListener("click", function () {
+                      // Close the animal selection pop-up
+                      document
+                        .querySelector("#animal-popup")
+                        .classList.remove("active");
+
+                      // Update the input field with the total number of animals
+                      const totalAnimals = cowsCount + goatsCount + sheepCount;
+                      const inputField =
+                        document.querySelector("#animalCountInput");
+                      inputField.value = `${totalAnimals}`;
+                    });
+
+                  function showAnimalPopup() {
+                    // Display the animal selection pop-up
+                    document
+                      .querySelector("#animal-popup")
+                      .classList.add("active");
+                  }
+
+                  function closeAnimalPopup() {
+                    // Close the animal selection pop-up
+                    document
+                      .querySelector("#animal-popup")
+                      .classList.remove("active");
+                  }
+
+                  function updateAnimalCount() {
+                    // Close the animal selection pop-up
+                    document
+                      .querySelector("#animal-popup")
+                      .classList.remove("active");
+
+                    // Update the input field with the total number of animals
+                    const totalAnimals = cowsCount + goatsCount + sheepCount;
+                    const inputField =
+                      document.querySelector("#animalCountInput");
+                    inputField.value = `Total Animals: ${totalAnimals}`;
+                  }
+                </script>
+              </div>
+            </td>
+            <td class="depart">
+              <p>Depart</p>
+              <div class="invisible-text">
+                <img src="images/calendar.SVG" class="calendar-image" />
+                <input
+                  type="text"
+                  id="depart-date"
+                  name="depart-date"
+                  readonly="readonly"
+                  class="custom-width"
+                  required
+                />
+              </div>
+            </td>
+            <td class="return">
+              <p>Return</p>
+              <div class="invisible-text">
+                <img src="images/calendar.SVG" class="calendar-image" />
+                <input
+                  type="text"
+                  id="return-date"
+                  name="return-date"
+                  readonly="readonly"
+                  class="custom-width"
+                  required
+                />
+              </div>
+            </td>
+            <td colspan="2" class="search-button-cell">
+              <form action="" method="post">
+                <!-- Your form controls go here -->
+              </form>
+              <button type="submit" id="search-button" class="search-button">
+                SEARCH
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <!-- Checkbox button -->
+              <label for="myCheckbox"> Direct Flight</label>
+              <input
+                type="checkbox"
+                id="myCheckbox"
+                class="side-by-side"
+                required
+              />
+              <select id="myDropdown" class="side-by-side">
+                <option value="option1">Economy</option>
+                <option value="option3">Business</option>
+                <option value="option4">First</option>
+                <option value="option5">Any</option>
+              </select>
+            </td>
+            <td>
+              <select id="myDropdown">
+                <option value="option1">All Airlines</option>
+                <option value="option2">Aer Lingus</option>
+                <option value="option3">Aeroflot</option>
+                <option value="option4">Aerolineas Argentinas</option>
+                <option value="option5">Aeromexico</option>
+                <option value="option6">Air Arabia Maroc</option>
+                <option value="option7">Air Astana</option>
+                <option value="option8">Air Baltic</option>
+                <option value="option9">Air Botswana</option>
+                <option value="option10">Air Canada</option>
+                <option value="option11">Air China</option>
+                <option value="option12">Air Europa</option>
+                <option value="option13">Air France</option>
+                <option value="option14">Air India</option>
+                <option value="option15">Air Malta</option>
+                <option value="option16">Air Mauritius</option>
+                <option value="option17">Air New Zeland</option>
+                <option value="option18">Air Serbia</option>
+                <option value="option19">Air Seychelles</option>
+                <option value="option20">Air Transat</option>
+                <option value="option21">Alitalia</option>
+                <option value="option22">All Nippon Airways</option>
+                <option value="option23">American Airlines</option>
+                <option value="option24">Asiana Airlines</option>
+                <option value="option25">Austrian Airlines</option>
+                <option value="option26">Avianca</option>
+                <option value="option27">Azerbaijan Airlines</option>
+                <option value="option28">Azul</option>
+                <option value="option29">Bangkok Airways</option>
+                <option value="option30">Biman Bangladesh</option>
+                <option value="option31">Boliviana</option>
+                <option value="option32">British Airways</option>
+                <option value="option33">Brussels Airlines</option>
+                <option value="option34">Caribbean Airlines</option>
+                <option value="option35">Cathay Pacific</option>
+                <option value="option36">Cayman Airways</option>
+                <option value="option37">China Airlines</option>
+                <option value="option38">China Eastern</option>
+                <option value="option39">China Southern</option>
+                <option value="option40">Copa</option>
+                <option value="option41">Czech Airlines</option>
+                <option value="option42">Delta</option>
+                <option value="option43">Egyptair</option>
+                <option value="option44">EL AL Israel</option>
+                <option value="option45">Emirates</option>
+                <option value="option46">Ethiopian</option>
+                <option value="option47">Ethiad Airways</option>
+                <option value="option48">Eurowings</option>
+                <option value="option49">EVA Airways</option>
+                <option value="option50">Fiji Airways</option>
+                <option value="option51">Finnair</option>
+                <option value="option52">Frontier Airlines</option>
+                <option value="option53">Germanwings</option>
+                <option value="option54">Gulf Air</option>
+                <option value="option55">Hainan Airlines</option>
+                <option value="option56">Hong Kong Airlines</option>
+                <option value="option57">Iberia</option>
+                <option value="option58">Icelandair</option>
+                <option value="option59">Iran Air</option>
+                <option value="option60">Japan Airlines</option>
+                <option value="option61">JetBlue Airways</option>
+                <option value="option62">Kenya Airways</option>
+                <option value="option63">KLM</option>
+                <option value="option64">Korean Air</option>
+                <option value="option65">LATAM Airlines</option>
+                <option value="option66">Liat</option>
+                <option value="option67">LOT-Polish</option>
+                <option value="option68">Lufthansa</option>
+                <option value="option69">Luxair</option>
+                <option value="option70">Malaysia Airlines</option>
+                <option value="option71">Middle East Airlines</option>
+                <option value="option72">Norwegian Air</option>
+                <option value="option73">Oman Air</option>
+                <option value="option74">Pakistan Intl</option>
+                <option value="option75">Philippine Airlines</option>
+                <option value="option76">PrecisionAir</option>
+                <option value="option77">Quantas Airways</option>
+                <option value="option78">Qatar Airways</option>
+                <option value="option79">Royal Air Maroc</option>
+                <option value="option80">Royal Brunei</option>
+                <option value="option81">Royal Jordanian</option>
+                <option value="option82">RwandAir</option>
+                <option value="option83">SAS</option>
+                <option value="option84">SATA International</option>
+                <option value="option85">Saudi Arabian</option>
+                <option value="option86">Singapore Airlines</option>
+                <option value="option87">South African Airways</option>
+                <option value="option88">SriLankan Airlines</option>
+                <option value="option89">Swiss</option>
+                <option value="option90">TAP Portugal</option>
+                <option value="option91">Tarom-Romanian</option>
+                <option value="option92">Thai Airways</option>
+                <option value="option93">Tianjin Airlines</option>
+                <option value="option94">Tunis Air</option>
+                <option value="option95">Turkish Airlines</option>
+                <option value="option96">Ukraine International Airlines</option>
+                <option value="option97">United</option>
+                <option value="option98">Uzbekistan Airways</option>
+                <option value="option99">Vietnam Airlines</option>
+                <option value="option100">Virgin Atlantic</option>
+                <option value="option101">Virgin Australia</option>
+                <option value="option102">WestJet</option>
+                <option value="option103">Wow Air</option>
+                <option value="option104">Xiamen Airlines</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <script>
+      // Get references to elements
+      var passengerTypeSelect = document.getElementById("passenger-type");
+      var passengerCountInput = document.getElementById("passenger-count");
+      var addButton = document.getElementById("add-passenger");
+      var removeButton = document.getElementById("remove-passenger");
+      var totalPassengers = document.getElementById("total");
+
+      // Function to validate and highlight empty required fields
+      function validateForm() {
+        const requiredFields = document.querySelectorAll("[required]");
+        let isValid = true;
+
+        requiredFields.forEach((field) => {
+          if (field.value.trim() === "") {
+            field.classList.add("error");
+            isValid = false;
+          } else {
+            field.classList.remove("error");
+          }
+        });
+
+        return isValid;
+      }
+
+      // Add a click event listener to the search button
+      document
+        .getElementById("search-button")
+        .addEventListener("click", function (event) {
+          if (!validateForm()) {
+            event.preventDefault(); // Prevent form submission if fields are empty
+            alert("Please fill in all required fields.");
+          }
+        });
+
+      // Add a change event listener to the dropdowns to remove the error class when options are selected
+      document.querySelectorAll("select[required]").forEach((select) => {
+        select.addEventListener("change", function () {
+          if (this.value.trim() !== "") {
+            this.classList.remove("error");
+          }
+        });
+      });
+
+      // Add an input event listener to the text input fields to remove the error class when they are edited
+      document.querySelectorAll("input[required]").forEach((input) => {
+        input.addEventListener("input", function () {
+          if (this.value.trim() !== "") {
+            this.classList.remove("error");
+          }
+        });
+        $(function () {
+          // Initialize the "From" input field for autocomplete
+          // Initialize the "From" input field for autocomplete
+          AirportAutocomplete.init({
+            input: document.getElementById("fromInput"),
+            results: document.getElementById("suggestionsFrom"),
+            onSelect: function (airport) {
+              // Handle the selection of an airport
+              console.log(airport);
+            },
+          });
+
+          // Initialize the "To" input field for autocomplete (similar to "From" field)
+          // Initialize the "To" input field for autocomplete
+          AirportAutocomplete.init({
+            input: document.getElementById("destinationInput"),
+            results: document.getElementById("suggestionsTo"),
+            onSelect: function (airport) {
+              // Handle the selection of an airport
+              console.log(airport);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

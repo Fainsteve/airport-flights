@@ -1,0 +1,198 @@
+* {
+  padding: 0;
+  margin: 0;
+  color: #0ba7ff;
+}
+.body-wrapper {
+  margin-top: 100px;
+}
+.row {
+  margin-top: 10px;
+}
+/* Style for the labels */
+label {
+  display: inline-block;
+  font-size: 10px;
+}
+
+/* Style for the radio buttons */
+input[type="radio"] {
+  display: inline-block;
+}
+.table-container {
+  width: 80%; /* Set the table width as desired */
+  margin: 0 auto; /* Center the table on the page */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3); /* Add a drop shadow */
+  border-radius: 20px;
+  overflow: hidden;
+}
+/* Style for the table */
+table {
+  border-collapse: collapse;
+  width: 100%; /* Set the table width to 100% within the container */
+}
+/* Style for table cells */
+td {
+  border: 1px solid #ccc; /* Add a border for cells */
+  padding: 10px; /* Add some padding for cell content */
+}
+/* Style for the input field */
+.input-container {
+  display: flex;
+  align-items: center;
+}
+#fromInput {
+  border: none; /* Remove border */
+  background: none; /* Remove background */
+  font-size: 18px; /* Adjust text size */
+  color: black; /* Text color */
+  margin: 0; /* Remove margin */
+  margin-left: 10px;
+  width: 100%; /* Make the input field occupy 100% of available width */
+  box-sizing: border-box; /* Ensure width includes padding and border */
+  outline: none; /* Remove the outline when focused */
+}
+#destinationInput {
+  border: none; /* Remove border */
+  background: none; /* Remove background */
+  font-size: 18px; /* Adjust text size */
+  color: black; /* Text color */
+  margin: 0; /* Remove margin */
+  margin-left: 10px;
+  width: 60%; /* Make the input field occupy 100% of available width */
+  box-sizing: border-box; /* Ensure width includes padding and border */
+  outline: none; /* Remove the outline when focused */
+}
+p {
+  margin: 0;
+  font-size: 12px;
+}
+.going-to {
+  width: 30%;
+}
+.search-button {
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+/* Add this CSS to remove default borders on dropdown selection */
+select {
+  border: none;
+  outline: none;
+  font-size: 12px;
+}
+#myCheckbox {
+  margin-right: 0px;
+}
+/* Add this CSS to set the background color of the cell to blue */
+.search-button-cell {
+  background-color: #0ba7ff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.search-button-cell:hover {
+  background-color: #007acc;
+}
+/* Reduce the font size for the "Round Trip" and "One Way" labels */
+label[for="roundTrip"],
+label[for="OneWay"] {
+  font-size: 14px; /* Adjust the font size as desired */
+}
+/* Reduce the font size for the "Direct Flight" label */
+label[for="myCheckbox"] {
+  font-size: 12px; /* Adjust the font size as desired */
+}
+/* Make the "Departure Date" and "Return Date" text invisible */
+.invisible-text {
+  /*color: transparent;
+  visibility: hidden;*/
+  font-size: 16px;
+}
+.custom-width {
+  width: 70%;
+}
+.transparent-label {
+  background: transparent;
+  border: none;
+  color: white;
+}
+.side-by-side {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px; /* Adjust the margin for spacing between elements */
+}
+td.depart input.custom-width,
+td.return input.custom-width {
+  border: none;
+  outline: none; /* Optional: Remove the outline when the input is focused */
+  color: #000; /* Set a color that contrasts with your background */
+}
+/* Default styles for all screen sizes */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+  margin: 0;
+  padding: 0;
+}
+/*#search-button {
+  background-color: #0ba7ff;
+  color: white;
+  padding: 10px 20px; /* Adjust padding as needed for your desired button size *
+  border: none;
+  cursor: pointer;
+}
+
+#search-button:hover {
+  background-color: #007acc; /* Change color on hover if desired *
+}*/
+/* Style the "SEARCH" button to inherit properties from the cell */
+.search-button {
+  background-color: inherit; /* Inherit the background color from the cell */
+  color: inherit; /* Inherit the text color from the cell */
+  font-size: inherit; /* Inherit the font size from the cell */
+  border: inherit; /* Inherit the border from the cell */
+  padding: inherit; /* Inherit the padding from the cell */
+  cursor: pointer; /* Set cursor to pointer to indicate it's clickable */
+}
+/* Add CSS styles for styling the increment and decrement buttons */
+.increment-decrement {
+  display: flex;
+  align-items: center;
+}
+.increment-decrement button {
+  width: 20px;
+  height: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 12px;
+  cursor: pointer;
+}
+.increment-decrement input {
+  width: 40px;
+  text-align: center;
+  font-size: 12px;
+  border: none;
+}
+/* Center the button container horizontally and place it above the table */
+.btn-container {
+  margin-left: 10%;
+  margin-top: 0; /* Adjust the margin as needed for vertical spacing */
+}
+
+/* Style for individual buttons */
+.btn {
+  margin: 0; /* Add some horizontal spacing between buttons */
+  display: inline-block;
+}
+.error {
+  border: 1px solid red;
+}
+.btn.btn-primary {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+  color: #fff; /* Text color is white */
+}

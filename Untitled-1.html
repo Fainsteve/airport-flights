@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flight Booking</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+    <style>
+      /* Your custom CSS styles go here */
+      body {
+        background: green;
+        overflow: hidden;
+      }
+      .body-wrapper {
+        margin-top: 20px;
+      }
+
+      .btn-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .btn-container .btn {
+        margin-right: 10px;
+      }
+
+      .table-container {
+        margin-top: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      td {
+        padding: 10px;
+        border: 1px solid #ccc;
+      }
+
+      .leaving-from,
+      .going-to,
+      .passenger-type {
+        display: flex;
+        align-items: center;
+      }
+
+      .leaving-from img,
+      .going-to img,
+      .passenger-type img {
+        width: 24px;
+        height: 24px;
+        margin-right: 10px;
+      }
+
+      .custom-width {
+        width: 100%;
+      }
+      .center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .center button {
+        padding: 10px 20px;
+        font-size: 15px;
+        font-weight: 600;
+        color: #222;
+        background: #f5f5f5;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+      .popup {
+        position: absolute;
+        top: 150%;
+        left: 50%;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(1.25);
+        width: 380px;
+        padding: 10px 20px;
+        background: red;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        transition: top 0ms ease-in-out 200ms, opacity 200ms ease-in-out 0ms,
+          transform 20ms ease-in-out 0ms;
+        text-align: center;
+        cursor: pointer;
+        font-size: 12px;
+        padding: 10px;
+      }
+      .popup.active {
+        top: 50%;
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        transition: top 0ms ease-in-out 0ms, opacity 200ms ease-in-out 0ms,
+          transform 20ms ease-in-out 0ms;
+      }
+      .popup .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 15px;
+        background: #888;
+        color: #eee;
+        text-align: center;
+        line-height: 15px;
+        border-radius: 15px;
+        cursor: pointer;
+      }
+      .popup .form h2 {
+        text-align: center;
+        color: #222;
+        margin: 10px 0 20px;
+        font-size: 25px;
+      }
+      .popup .form .form-element {
+        margin: 15px 0px;
+      }
+      .popup .form .form-element input[type="text"],
+      .popup .form .form-element input[type="password"] {
+        margin-top: 5px;
+        display: block;
+        width: 100%;
+        padding: 10px;
+        outline: none;
+        border: 1px solid #aaa;
+        border-radius: 5px;
+      }
+      .popup .form .form-element input[type="checkbox"] {
+        margin-right: 5px;
+      }
+      .popup .form .form-element button {
+        width: 100%;
+        height: 40px;
+        border: none;
+        outline: none;
+        font-size: 15px;
+        background: #222;
+        color: #f5f5f5;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .popup .form .form-element a {
+        display: block;
+        text-align: right;
+        font-size: 15px;
+        color: #1a79ca;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      /* Add more styles as needed */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between">
+        <img src="logo.png" width="200" alt="logo" />
+        <div class="d-none d-xl-flex align-items-center">
+          <p class="fw-bold text-primary m-0">Login</p>
+          <input
+            type="text"
+            placeholder="ENGLISH (UK)"
+            class="form-control mx-2"
+          />
+          <div class="btn btn-outline-primary fw-bold">Login</div>
+        </div>
+        <div class="btn-container">
+          <div class="btn btn-dark fw-bold">Flights</div>
+          <div class="btn btn-primary fw-bold">Hotels</div>
+          <div class="btn btn-primary fw-bold">Car Hire</div>
+        </div>
+      </div>
+    </div>
+    <div class="position-relative">
+      <img src="background.jpg" alt="" class="img-fluid d-none d-xl-block" />
+      <div
+        class="d-none d-xl-block position-absolute start-50 top-50 translate-middle"
+      >
+        <div
+          class="rounded p-3 bg-cp"
+          style="margin-bottom: 40%; width: 1200px"
+        >
+          <div class="d-flex align-items-center">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault1"
+              />
+              <label
+                class="form-check-label fw-bold fs-7"
+                for="flexRadioDefault1"
+                >Return</label
+              >
+            </div>
+            <div class="form-check mx-2">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault2"
+                checked
+              />
+              <label
+                class="form-check-label fw-bold fs-7"
+                for="flexRadioDefault2"
+                >One Way</label
+              >
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="flexRadioDefault"
+                id="flexRadioDefault3"
+              />
+              <label
+                class="form-check-label fw-bold fs-7"
+                for="flexRadioDefault3"
+                >Multi-City</label
+              >
+            </div>
+          </div>
+          <div class="d-flex align-items-center py-2">
+            <div>
+              <label for="toInput" class="form-label fw-bold fs-8">To</label>
+              <input
+                class="form-control inp-height inp-width"
+                list="datalistOptions"
+                id="toInput"
+                placeholder="Airport or City"
+              />
+              <datalist id="datalistOptions">
+                <option value="San Francisco"></option>
+                <option value="New York"></option>
+                <option value="Seattle"></option>
+                <option value="Los Angeles"></option>
+                <option value="Chicago"></option>
+              </datalist>
+            </div>
+            <div>
+              <label for="fromInput" class="form-label fw-bold fs-8"
+                >From</label
+              >
+              <input
+                class="form-control inp-height inp-width"
+                list="datalistOptions"
+                id="fromInput"
+                placeholder="Airport or City"
+              />
+              <datalist id="datalistOptions">
+                <option value="San Francisco"></option>
+                <option value="New York"></option>
+                <option value="Seattle"></option>
+                <option value="Los Angeles"></option>
+                <option value="Chicago"></option>
+              </datalist>
+            </div>
+            <div>
+              <label for="departDate" class="fw-bold fs-8">Depart</label>
+              <input
+                type="date"
+                id="departDate"
+                class="form-control inp-height"
+              />
+            </div>
+            <div>
+              <label for="returnDate" class="fw-bold fs-8">Return</label>
+              <input
+                type="date"
+                id="returnDate"
+                class="form-control inp-height"
+              />
+            </div>
+            <div>
+              <label for="cabinClass" class="fw-bold fs-8"
+                >Cabin class & Travellers</label
+              >
+              <select
+                class="form-select inp-height inp-width"
+                aria-label="Cabin class & Travellers"
+                id="cabinClass"
+              >
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="addNearbyAirports"
+                  checked
+                />
+                <label
+                  class="form-check-label fw-bold fs-8"
+                  for="addNearbyAirports"
+                  >Add nearby airports</label
+                >
+              </div>
+              <div class="form-check form-check-inline ms-5">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckChecked"
+                />
+                <label
+                  class="form-check-label fw-bold fs-8"
+                  for="flexCheckChecked"
+                  >Add nearby airports</label
+                >
+              </div>
+              <div class="form-check form-check-inline ms-5">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="directFlightsOnly"
+                />
+                <label
+                  class="form-check-label fw-bold fs-8"
+                  for="directFlightsOnly"
+                  >Direct flights only</label
+                >
+              </div>
+            </div>
+            <div class="btn btn-dark fw-bold btn-lg inp-width">
+              Search Flights
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-black d-xl-none rounded-2 bg-cp py-3 px-3">
+      <div class="d-flex align-items-center py-2">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault1"
+          />
+          <label class="form-check-label fw-bold fs-7" for="flexRadioDefault1"
+            >Return</label
+          >
+        </div>
+        <div class="form-check mx-2">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault2"
+            checked
+          />
+          <label class="form-check-label fw-bold fs-7" for="flexRadioDefault2"
+            >One Way</label
+          >
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="flexRadioDefault"
+            id="flexRadioDefault3"
+          />
+          <label class="form-check-label fw-bold fs-7" for="flexRadioDefault3"
+            >Multi-City</label
+          >
+        </div>
+      </div>
+      <div>
+        <label for="toInput" class="form-label fw-bold fs-8">To</label>
+        <input
+          class="form-control"
+          list="datalistOptions"
+          id="toInput"
+          placeholder="Airport or City"
+        />
+        <datalist id="datalistOptions">
+          <option value="San Francisco"></option>
+          <option value="New York"></option>
+          <option value="Seattle"></option>
+          <option value="Los Angeles"></option>
+          <option value="Chicago"></option>
+        </datalist>
+      </div>
+    </div>
+
+    <div class="center">
+      <!--<input type="button" id="show-animal-popup" value="Login" />-->
+      <input
+        type="text"
+        id="animalCountInput"
+        readonly
+        placeholder="Select Animals"
+        onclick="showAnimalPopup()"
+      />
+    </div>
+    <div id="animal-popup" class="popup">
+      <div class="close-btn" onclick="closeAnimalPopup()">&times;</div>
+      <div class="form">
+        <p>Select Animals</p>
+        <!-- Add your animal incrementors and decrements here -->
+        <label for="cows">Cows:</label>
+        <span
+          class="quantity-button"
+          id="decrementCows"
+          onclick="decrementCount('cowsCount')"
+          >-</span
+        >
+        <span id="cowsCount">0</span>
+        <span
+          class="quantity-button"
+          id="incrementCows"
+          onclick="incrementCount('cowsCount')"
+          >+</span
+        ><br />
+
+        <label for="goats">Goats:</label>
+        <span
+          class="quantity-button"
+          id="decrementGoats"
+          onclick="decrementCount('goatsCount')"
+          >-</span
+        >
+        <span id="goatsCount">0</span>
+        <span
+          class="quantity-button"
+          id="incrementGoats"
+          onclick="incrementCount('goatsCount')"
+          >+</span
+        ><br />
+
+        <label for="sheep">Sheep:</label>
+        <span
+          class="quantity-button"
+          id="decrementSheep"
+          onclick="decrementCount('sheepCount')"
+          >-</span
+        >
+        <span id="sheepCount">0</span>
+        <span
+          class="quantity-button"
+          id="incrementSheep"
+          onclick="incrementCount('sheepCount')"
+          >+</span
+        ><br />
+        <button id="doneAnimalSelection" onclick="updateAnimalCount()">
+          Done
+        </button>
+      </div>
+    </div>
+    <script>
+      // Initialize counts for cows, goats, and sheep
+      let cowsCount = 0;
+      let goatsCount = 0;
+      let sheepCount = 0;
+
+      // Function to update the displayed counts
+      function updateCounts() {
+        document.querySelector("#cowsCount").textContent = cowsCount;
+        document.querySelector("#goatsCount").textContent = goatsCount;
+        document.querySelector("#sheepCount").textContent = sheepCount;
+      }
+
+      // Increment cows count
+      document
+        .querySelector("#incrementCows")
+        .addEventListener("click", function () {
+          cowsCount++;
+          updateCounts();
+        });
+
+      // Decrement cows count
+      document
+        .querySelector("#decrementCows")
+        .addEventListener("click", function () {
+          if (cowsCount > 0) {
+            cowsCount--;
+            updateCounts();
+          }
+        });
+
+      // Increment goats count
+      document
+        .querySelector("#incrementGoats")
+        .addEventListener("click", function () {
+          goatsCount++;
+          updateCounts();
+        });
+
+      // Decrement goats count
+      document
+        .querySelector("#decrementGoats")
+        .addEventListener("click", function () {
+          if (goatsCount > 0) {
+            goatsCount--;
+            updateCounts();
+          }
+        });
+
+      // Increment sheep count
+      document
+        .querySelector("#incrementSheep")
+        .addEventListener("click", function () {
+          sheepCount++;
+          updateCounts();
+        });
+
+      // Decrement sheep count
+      document
+        .querySelector("#decrementSheep")
+        .addEventListener("click", function () {
+          if (sheepCount > 0) {
+            sheepCount--;
+            updateCounts();
+          }
+        });
+
+      // Handle the "Done" button click
+      document
+        .querySelector("#doneAnimalSelection")
+        .addEventListener("click", function () {
+          // Close the animal selection pop-up
+          document.querySelector("#animal-popup").classList.remove("active");
+
+          // Update the input field with the total number of animals
+          const totalAnimals = cowsCount + goatsCount + sheepCount;
+          const inputField = document.querySelector("#animalCountInput");
+          inputField.value = `Total Animals: ${totalAnimals}`;
+        });
+
+      function showAnimalPopup() {
+        // Display the animal selection pop-up
+        document.querySelector("#animal-popup").classList.add("active");
+      }
+
+      function closeAnimalPopup() {
+        // Close the animal selection pop-up
+        document.querySelector("#animal-popup").classList.remove("active");
+      }
+
+      function updateAnimalCount() {
+        // Close the animal selection pop-up
+        document.querySelector("#animal-popup").classList.remove("active");
+
+        // Update the input field with the total number of animals
+        const totalAnimals = cowsCount + goatsCount + sheepCount;
+        const inputField = document.querySelector("#animalCountInput");
+        inputField.value = `Total Animals: ${totalAnimals}`;
+      }
+    </script>
+  </body>
+</html>
